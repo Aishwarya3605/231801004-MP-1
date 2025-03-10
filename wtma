@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Form</title>
+    <script>
+        function validateForm() {
+            let fields = ["firstName", "lastName", "email", "dob", "age", "phone", "address"];
+            let patterns = {
+                firstName: /^[A-Za-z]{4,}$/,
+                lastName: /^[A-Za-z]{1,}$/,
+                email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                age: /^[0-9]{2}$/,
+                phone: /^[0-9]{10}$/,
+                address: /.+/
+            };
+            let isValid = true, row = "<tr>";
+
+            fields.forEach(id => {
+                let input = document.getElementById(id);
+                let error = document.getElementById(id + "Error");
+                error.innerText = "";
+                if (!input.value.trim() || (patterns[id] && !patterns[id].test(input.value.trim()))) {
+                    error.innerText = "Invalid input";
+                    isValid = false;
+                }
+                row += `<td>${input.value.trim()}</td>`;
+            });
+
+            if (isValid) {
+                document.getElementById("dataTable").innerHTML += row + "</tr>";
+                document.getElementById("signupForm").reset();
+            }
+        }
+    </script>
+    <style>.error { color: red; font-size: 14px; }</style>
+</head>
+<body>
+    <h2>Signup Form</h2>
+    <form id="signupForm">
+        First Name: <input type="text" id="firstName"><span class="error" id="firstNameError"></span><br>
+        Last Name: <input type="text" id="lastName"><span class="error" id="lastNameError"></span><br>
+        Email: <input type="email" id="email"><span class="error" id="emailError"></span><br>
+        Date of Birth: <input type="date" id="dob"><span class="error" id="dobError"></span><br>
+        Age: <input type="number" id="age"><span class="error" id="ageError"></span><br>
+        Phone: <input type="text" id="phone"><span class="error" id="phoneError"></span><br>
+        Address: <textarea id="address"></textarea><span class="error" id="addressError"></span><br>
+        <button type="button" onclick="validateForm()">Signup</button>
+    </form>
+
+    <h3>Submitted Data</h3>
+    <table border="1">
+        <thead><tr><th>First Name</th><th>Last Name</th><th>Email</th><th>DOB</th><th>Age</th><th>Phone</th><th>Address</th></tr></thead>
+        <tbody id="dataTable"></tbody>
+    </table>
+</body>
+</html>
